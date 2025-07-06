@@ -1,1 +1,14 @@
+node_modules
+aws-exports.js
+*.log*
+.nuxt
+.nitro
+.cache
+.output
+.env
+dist
+.dccache
+aws-exports.js:Zone.Identifier
+env:Zone.Identifier
 package-lock.json
+public/.DS_Store

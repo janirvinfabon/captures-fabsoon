@@ -6,20 +6,22 @@
       autoplay
       muted
       loop
+      playsinline
+      preload="auto"
       class="video-background"
     >
       <source src="/wedding-background.mp4" type="video/mp4">
     </video>
     
     <!-- Landing Page -->
-    <div v-if="!showCamera" class="flex flex-col items-center justify-center min-h-screen text-white text-center p-4">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4">Captures Fabsoon Wedding</h1>
+    <div v-if="!showCamera" class="flex flex-col items-center justify-center min-h-screen text-black text-center p-4">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Fabsoon Captures</h1>
       <p class="text-lg md:text-xl mb-8">Create your wedding souvenir</p>
       <button
         @click="openCamera"
-        class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+        class="bg-orange-500 hover:bg-orange-600 text-black font-bold py-3 px-6 rounded-lg text-lg"
       >
-        📸 Open Camera
+        Open Camera
       </button>
     </div>
 
@@ -77,11 +79,23 @@
             class="cursor-pointer border-2 rounded-lg overflow-hidden"
             :class="selectedBackground === bg ? 'border-pink-500' : 'border-gray-300'"
           >
-            <img :src="bg" :alt="`Background ${index + 1}`" class="w-full h-20 object-cover">
+            <img 
+              :src="bg" 
+              :alt="`Background ${index + 1}`" 
+              class="w-full h-20 min-h-20 object-cover"
+              @error="handleImageError($event, index)"
+              @load="handleImageLoad(index)"
+            >
           </div>
         </div>
         
-        <div class="text-center">
+        <div class="text-center space-x-4">
+          <button
+            @click="retakePhoto"
+            class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            📷 Retake
+          </button>
           <button
             @click="uploadFinalImage"
             :disabled="uploading"
@@ -137,7 +151,7 @@ const closeCamera = () => {
   showCamera.value = false
 }
 
-const capturePhoto = () => {
+const capturePhoto = async () => {
   const video = videoElement.value
   const canvas = canvasElement.value
   const ctx = canvas.getContext('2d')
@@ -150,6 +164,10 @@ const capturePhoto = () => {
   closeCamera()
   selectedBackground.value = weddingBackgrounds[0]
   updatePreview()
+  
+  // Auto scroll to background selection
+  await nextTick()
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
 }
 
 const selectBackground = (background) => {
@@ -159,6 +177,10 @@ const selectBackground = (background) => {
 
 const updatePreview = async () => {
   await nextTick()
+  if (!previewCanvas.value || !capturedImage.value || !selectedBackground.value) {
+    return
+  }
+  
   const canvas = previewCanvas.value
   const ctx = canvas.getContext('2d')
   
@@ -167,20 +189,40 @@ const updatePreview = async () => {
   
   // Load background
   const bgImg = new Image()
+  bgImg.crossOrigin = 'anonymous'
   bgImg.onload = () => {
+    console.log('Background loaded, drawing...')
     ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height)
     
     // Load captured image
     const userImg = new Image()
     userImg.onload = () => {
+      console.log('User image loaded, compositing...')
       const size = Math.min(canvas.width * 0.6, canvas.height * 0.4)
       const x = (canvas.width - size) / 2
       const y = canvas.height * 0.1
       ctx.drawImage(userImg, x, y, size, size)
+      console.log('Preview updated successfully')
     }
+    userImg.onerror = (e) => console.error('User image load error:', e)
     userImg.src = capturedImage.value
   }
+  bgImg.onerror = (e) => console.error('Background image load error:', e)
   bgImg.src = selectedBackground.value
+}
+
+const handleImageError = (event, index) => {
+  console.error(`Background image ${index + 1} failed to load:`, event.target.src)
+}
+
+const handleImageLoad = (index) => {
+  console.log(`Background image ${index + 1} loaded successfully`)
+}
+
+const retakePhoto = () => {
+  capturedImage.value = null
+  selectedBackground.value = null
+  openCamera()
 }
 
 const uploadFinalImage = async () => {
@@ -211,3 +253,22 @@ const uploadFinalImage = async () => {
   }
 }
 </script>
+
+<style scoped>
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.overlay-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+</style>
