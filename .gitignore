@@ -1,3 +1,4 @@
+# Node
 node_modules
 aws-exports.js
 *.log*
@@ -12,3 +13,36 @@ aws-exports.js:Zone.Identifier
 env:Zone.Identifier
 package-lock.json
 public/.DS_Store
+.DS_Store
+
+# Python
+# Distribution / packaging
+__pycache__/
+backend/__pycache__/
+*.py[cod]
+*$py.class
+.Python
+backend/venv/*
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+composer.lock
+vendor
+backend/.serverless/serverless-state.json
+backend/.serverless/requirements.txt
+backend/.serverless/requirements
+backend/.serverless/cloudformation-template-update-stack.json
+backend/.serverless/cloudformation-template-create-stack.json
+backend/.serverless/captures-fabsoon-wedding.zip
