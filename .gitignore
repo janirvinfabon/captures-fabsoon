@@ -46,3 +46,5 @@ backend/.serverless/requirements
 backend/.serverless/cloudformation-template-update-stack.json
 backend/.serverless/cloudformation-template-create-stack.json
 backend/.serverless/captures-fabsoon-wedding.zip
+.env.example
+waf-config.json

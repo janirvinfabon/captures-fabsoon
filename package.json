@@ -5,7 +5,11 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "copy": "aws s3 sync ./.output/public s3://$S3_BUCKET --profile $AWS_PROFILE",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths '/*' --profile $AWS_PROFILE",
+    "distribution": "aws cloudfront get-distribution --id $CLOUDFRONT_ID --profile $AWS_PROFILE --query 'Distribution.DistributionConfig.Aliases.Items' --output text",
+    "deploy": "npm run build && npm run generate && npm run copy && npm run invalidate && npm run distribution"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

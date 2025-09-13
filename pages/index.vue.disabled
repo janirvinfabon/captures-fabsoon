@@ -1,0 +1,289 @@
+<template>
+  <div class="min-h-screen relative">
+    <!-- Video Background -->
+    <video
+      v-if="!showCamera"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      class="video-background"
+    >
+      <source src="/wedding-background.mp4" type="video/mp4">
+    </video>
+    
+    <!-- Landing Page -->
+    <div v-if="!showCamera" class="flex flex-col items-center justify-center min-h-screen text-black text-center p-4">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Fabsoon Captures</h1>
+      <p class="text-lg md:text-xl mb-8">Create your wedding souvenir</p>
+      <div class="space-x-4">
+        <button
+          @click="openCamera"
+          class="text-white font-cormorant px-6 py-3 rounded-lg"
+          style="background-color: #cd7b49"
+        >
+          Open Camera
+        </button>
+        <NuxtLink
+          to="/entourage"
+          class="text-white font-cormorant px-6 py-3 rounded-lg"
+          style="background-color: #3d1d11"
+        >
+          View Entourage
+        </NuxtLink>
+        <NuxtLink
+          to="/invitation#rsvp"
+          class="text-white font-cormorant px-6 py-3 rounded-lg"
+          style="background-color: #6c462f"
+        >
+          RSVP Here
+        </NuxtLink>
+      </div>
+    </div>
+
+    <!-- Camera View -->
+    <div v-if="showCamera" class="min-h-screen bg-black">
+      <div class="p-4">
+        <button
+          @click="closeCamera"
+          class="text-white mb-4"
+        >
+          ← Back
+        </button>
+      </div>
+      
+      <div class="relative flex justify-center">
+        <video
+          ref="videoElement"
+          autoplay
+          playsinline
+          class="max-w-full h-auto relative z-10"
+        ></video>
+        <canvas
+          ref="canvasElement"
+          class="overlay-canvas"
+        ></canvas>
+        <img
+          v-if="selectedFrame"
+          :src="selectedFrame"
+          class="absolute top-0 left-1/2 transform -translate-x-1/2 pointer-events-none z-5"
+          :style="{ width: videoElement?.clientWidth + 'px', height: videoElement?.clientHeight + 'px' }"
+        >
+      </div>
+
+      
+      <div class="p-4">
+        <h3 class="text-white text-center mb-2">Choose Frame</h3>
+        <div class="flex justify-center space-x-2 mb-4">
+          <button
+            @click="selectedFrame = null"
+            class="px-3 py-1 text-xs bg-gray-600 text-white rounded"
+            :class="!selectedFrame ? 'bg-pink-500' : ''"
+          >
+            None
+          </button>
+          <button
+            v-for="(frame, index) in weddingFrames"
+            :key="index"
+            @click="selectedFrame = frame"
+            class="px-3 py-1 text-xs bg-gray-600 text-white rounded"
+            :class="selectedFrame === frame ? 'bg-pink-500' : ''"
+          >
+            Frame {{ index + 1 }}
+          </button>
+        </div>
+      </div>
+      
+      <div class="text-center p-4">
+        <button
+          @click="capturePhoto"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full text-lg"
+        >
+          📷 Capture
+        </button>
+      </div>
+    </div>
+
+    <!-- Photo Preview -->
+    <div v-if="capturedImage" class="min-h-screen bg-gray-100 p-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold mb-6">Your Wedding Photo</h2>
+        
+        <div class="mb-6">
+          <img :src="capturedImage" class="max-w-md mx-auto border rounded-lg">
+        </div>
+        
+        <div class="space-x-4">
+          <button
+            @click="retakePhoto"
+            class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            📷 Retake
+          </button>
+          <button
+            @click="uploadFinalImage"
+            :disabled="uploading"
+            class="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg text-lg"
+          >
+            {{ uploading ? 'Uploading...' : '✨ Save Photo' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+const showCamera = ref(false)
+const capturedImage = ref(null)
+
+const uploading = ref(false)
+
+const videoElement = ref(null)
+const canvasElement = ref(null)
+
+
+
+
+const weddingFrames = ref([])
+
+const loadFrames = async () => {
+  try {
+    const modules = import.meta.glob('~/public/frames/*.png', { as: 'url' })
+    const frames = []
+    
+    for (const path in modules) {
+      const url = await modules[path]()
+      frames.push(url)
+    }
+    
+    weddingFrames.value = frames
+  } catch (error) {
+    console.error('Failed to load frames:', error)
+  }
+}
+
+onMounted(() => {
+  loadFrames()
+})
+
+const selectedFrame = ref(null)
+
+const { $config } = useNuxtApp()
+
+const openCamera = async () => {
+  showCamera.value = true
+  selectedFrame.value = null
+  await nextTick()
+  
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ 
+      video: { facingMode: 'user' } 
+    })
+    videoElement.value.srcObject = stream
+  } catch (error) {
+    console.error('Camera access denied:', error)
+    alert('Camera access is required for this feature')
+    closeCamera()
+  }
+}
+
+const closeCamera = () => {
+  if (videoElement.value?.srcObject) {
+    videoElement.value.srcObject.getTracks().forEach(track => track.stop())
+  }
+  showCamera.value = false
+}
+
+const capturePhoto = async () => {
+  const video = videoElement.value
+  const canvas = canvasElement.value
+  const ctx = canvas.getContext('2d')
+  
+  canvas.width = video.videoWidth
+  canvas.height = video.videoHeight
+  
+  // Add frame if selected
+  if (selectedFrame.value) {
+    const frameImg = new Image()
+    frameImg.crossOrigin = 'anonymous'
+    frameImg.onload = () => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+      ctx.drawImage(frameImg, 0, 0, canvas.width, canvas.height)
+      capturedImage.value = canvas.toDataURL('image/jpeg', 0.8)
+      closeCamera()
+      nextTick().then(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+      })
+    }
+    frameImg.onerror = () => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+      capturedImage.value = canvas.toDataURL('image/jpeg', 0.8)
+      closeCamera()
+      nextTick().then(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+      })
+    }
+    frameImg.src = selectedFrame.value
+  } else {
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+    capturedImage.value = canvas.toDataURL('image/jpeg', 0.8)
+    closeCamera()
+    nextTick().then(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    })
+  }
+}
+
+
+
+const retakePhoto = () => {
+  capturedImage.value = null
+  openCamera()
+}
+
+const uploadFinalImage = async () => {
+  uploading.value = true
+  
+  try {
+    const response = await $fetch(`${$config.public.apiBaseUrl}/upload`, {
+      method: 'POST',
+      body: {
+        image: capturedImage.value,
+        timestamp: new Date().toISOString()
+      }
+    })
+    
+    alert('Your wedding photo has been saved successfully! 🎉')
+    
+    // Reset
+    capturedImage.value = null
+    
+  } catch (error) {
+    console.error('Upload failed:', error)
+    alert('Upload failed. Please try again.')
+  } finally {
+    uploading.value = false
+  }
+}
+</script>
+
+<style scoped>
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.overlay-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+</style>

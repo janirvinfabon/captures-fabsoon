@@ -1,0 +1,146 @@
+<template>
+  <div class="min-h-screen bg-gray-50 p-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <h1 class="font-cormorant text-4xl font-bold text-gray-800 mb-2">The Entourage</h1>
+        <p class="text-gray-600">Meet our special people</p>
+      </div>
+
+      <!-- Parents -->
+      <div v-if="entourage.groomParents" class="mb-4">
+        <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Parents</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="text-center">
+            <h3 class="text-lg font-semibold mb-3">Groom's Parents</h3>
+            <div v-for="person in entourage.groomParents" :key="person.name" class="mb-2">
+              <p class="font-script text-xl">{{ person.name }}</p>
+            </div>
+          </div>
+          <div class="text-center">
+            <h3 class="text-lg font-semibold mb-3">Bride's Parents</h3>
+            <div v-for="person in entourage.brideParents" :key="person.name" class="mb-2">
+              <p class="font-script text-xl">{{ person.name }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Principal Sponsors -->
+      <div v-if="entourage.principalSponsors" class="mb-4">
+        <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Principal Sponsors</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div v-for="person in entourage.principalSponsors" :key="person.name" class="text-center mb-2">
+            <p class="font-script text-xl">{{ person.name }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Best Man & Maid of Honor -->
+      <div v-if="entourage.bestMan" class="grid md:grid-cols-2 gap-8 mb-4">
+        <div>
+          <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Best Man</h2>
+          <div class="text-center">
+            <div v-for="person in entourage.bestMan" :key="person.name" class="mb-2">
+              <p class="font-script text-xl">{{ person.name }}</p>
+              <p class="text-sm text-gray-600 italic">{{ person.relationship }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Maid of Honor</h2>
+          <div class="text-center">
+            <div v-for="person in entourage.maidOfHonor" :key="person.name" class="mb-2">
+              <p class="font-script text-xl">{{ person.name }}</p>
+              <p class="text-sm text-gray-600 italic">{{ person.relationship }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Sponsors -->
+      <div v-if="entourage.secondarySponsors" class="mb-4">
+        <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Secondary Sponsors</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div v-for="person in entourage.secondarySponsors" :key="person.name" class="text-center mb-2">
+            <p class="font-script text-xl">{{ person.name }}</p>
+            <p class="text-sm text-gray-600 italic">{{ person.role }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bridesmaids & Groomsmen -->
+      <div v-if="entourage.groomsmen" class="grid md:grid-cols-2 gap-8 mb-4">
+        <div>
+          <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Groom Squad</h2>
+          <div class="text-center">
+            <div v-for="person in entourage.groomsmen" :key="person.name" class="mb-2">
+              <p class="font-script text-xl">{{ person.name }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Bride Squad</h2>
+          <div class="text-center">
+            <div v-for="person in entourage.bridesmaids" :key="person.name" class="mb-2">
+              <p class="font-script text-xl">{{ person.name }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special Roles -->
+      <div v-if="entourage.specialRoles" class="mb-4">
+        <h2 class="font-cormorant text-2xl font-bold text-black mb-2 text-center">Special Roles</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div v-for="person in entourage.specialRoles" :key="person.name" class="text-center mb-2">
+            <p class="font-script text-xl">{{ person.name }}</p>
+            <p class="text-sm text-gray-600 italic">{{ person.role }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <NuxtLink to="/" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg mr-4">
+          Back to Home
+        </NuxtLink>
+        <NuxtLink to="/invitation" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg">
+          RSVP Here
+        </NuxtLink>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+const { $config } = useNuxtApp()
+
+const entourage = ref({})
+
+onMounted(async () => {
+  try {
+    entourage.value = await $fetch('/entourage-demo.json')
+  } catch (error) {
+    console.error('Failed to load entourage data:', error)
+  }
+})
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Euphoria+Script&family=Cormorant+Upright:wght@300;400;500;600;700&display=swap');
+
+.font-elegant {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-script {
+  font-family: 'Euphoria Script', cursive;
+  /* line-height: 0.9; */
+  letter-spacing: 0.075em;
+}
+
+.font-cormorant {
+  font-family: 'Cormorant Upright', serif;
+}
+</style>
