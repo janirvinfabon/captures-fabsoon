@@ -87,6 +87,12 @@ def rsvp_handler(event, context):
         email:str = body['email'].strip().lower()
         current_date = datetime.now().isoformat()
 
+        if datetime.now() > datetime(2025, 11, 15):
+            return _handle_response(400, {
+                'success': False,
+                'error': 'RSVP period has ended.'
+            })
+
         email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         if not re.match(email_regex, email):
             return _handle_response(400, {

@@ -25,20 +25,46 @@
           <div class="border-2 p-6" style="border-color: #cfb795">
             <p class="font-cormorant text-2xl mb-4">You're Invited to Celebrate</p>
             <h3 class="font-script text-5xl mb-6" style="color: #cd7b49">Our Wedding</h3>
+
+            <!-- Countdown Timer -->
+            <div class="mb-6">
+              <div class="grid grid-cols-4 gap-4 max-w-md mx-auto">
+                <div class="text-center">
+                  <div class="text-2xl font-bold" style="color: #cd7b49">{{ countdown.days }}</div>
+                  <div class="text-sm font-cormorant text-gray-600">Days</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold" style="color: #cd7b49">{{ countdown.hours }}</div>
+                  <div class="text-sm font-cormorant text-gray-600">Hours</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold" style="color: #cd7b49">{{ countdown.minutes }}</div>
+                  <div class="text-sm font-cormorant text-gray-600">Minutes</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold" style="color: #cd7b49">{{ countdown.seconds }}</div>
+                  <div class="text-sm font-cormorant text-gray-600">Seconds</div>
+                </div>
+              </div>
+            </div>
+            <!-- Divider -->
+            <div class="flex items-center justify-center mb-6">
+              <div class="flex-1 h-px" style="background-color: #cfb795"></div>
+            </div>
             
             <div class="space-y-3 text-gray-700 mb-6">
               <div class="flex items-center justify-center space-x-2">
                 <svg class="w-5 h-5" style="color: #cd7b49" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v9a1 1 0 001 1h8a1 1 0 001-1V8a1 1 0 00-1-1h-1"></path>
                 </svg>
-                <p class="font-cormorant text-xl font-semibold">December 20, 2025</p>
+                <p class="font-cormorant text-base font-semibold">December 20, 2025</p>
               </div>
               
               <div class="flex items-center justify-center space-x-2">
                 <svg class="w-5 h-5" style="color: #cd7b49" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <p class="font-cormorant text-lg">2:00 PM Ceremony</p>
+                <p class="font-cormorant text-sm">2:00 PM Ceremony</p>
               </div>
               
               <div class="flex items-start justify-center space-x-2">
@@ -46,7 +72,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                 </svg>
                 <div class="text-center">
-                  <p class="font-cormorant text-lg">Central Fundamental Baptist Church</p>
+                  <p class="font-cormorant text-sm">Central Fundamental Baptist Church</p>
                   <p class="font-cormorant text-sm text-gray-600">Poblacion IV, Coron, Palawan</p>
                 </div>
               </div>
@@ -56,7 +82,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m6.364-.636l-2.121 2.121M21 12h-3m-.636 6.364l-2.121-2.121M12 21v-3m-6.364.636l2.121-2.121M3 12h3m.636-6.364l2.121 2.121M8 12a4 4 0 108 0 4 4 0 00-8 0zm4-8v2m0 12v2"></path>
                 </svg>
                 <div class="text-center">
-                  <p class="font-cormorant text-lg">Reception follows at</p>
+                  <p class="font-cormorant text-sm">Reception follows at</p>
                   <p class="font-cormorant text-sm text-gray-600">Coron Westown Resort</p>
                 </div>
               </div>
@@ -64,12 +90,12 @@
             
             <div class="border-t pt-4" style="border-color: #cfb795">
               <p class="font-cormorant text-lg mb-2" style="color: #cd7b49">Wedding Theme</p>
-              <p class="font-cormorant text-base text-gray-600 mb-4">Modern Filipiña</p>
+              <p class="font-cormorant text-base text-gray-600 mb-4">Modern Filipiñana</p>
               
               <p class="font-cormorant text-lg mb-2" style="color: #cd7b49">Share the Love</p>
               <p class="font-cormorant text-base text-gray-600 mb-4">#oriJANallymadetomarryMURIEL</p>
               
-              <p class="font-cormorant text-sm text-gray-500 italic">"When the time is right, I, the Lord, will make it happen." - Isaiah 60:22</p>
+              <p class="font-cormorant text-base text-gray-500 italic">"When the time is right, I, the Lord, will make it happen." - Isaiah 60:22</p>
             </div>
           </div>
         </div>
@@ -82,7 +108,7 @@
           <div class="grid md:grid-cols-2 gap-8 items-center">
             <div class="relative overflow-hidden rounded-lg">
               <div class="carousel-container flex transition-transform duration-500 ease-in-out" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-                <img v-for="(image, index) in carouselImages" :key="index" :src="`/backgrounds/carousel/carousel-${index + 1}.jpg`" alt="Couple" class="w-full h-64 object-cover flex-shrink-0">
+                <img v-for="(image, index) in carouselImages" :key="index" :src="`/backgrounds/carousel/reduced/carousel-${index + 1}.jpg`" alt="Couple" class="w-full h-64 object-cover flex-shrink-0">
               </div>
             </div>
             <div>
@@ -106,7 +132,7 @@
             <div class="bg-white shadow-lg rounded-lg p-6 text-center">
               <img src="/dress-code/code-1.png" alt="Principal Sponsors" class="w-full h-48 object-contain rounded-lg mb-4">
               <p class="font-cormorant text-lg font-semibold mb-2">Principal Sponsors</p>
-              <p class="text-gray-600">Filipiña Dress / Polo Barong</p>
+              <p class="text-gray-600">Filipiñana Dress / Polo Barong</p>
             </div>
             <div class="bg-white shadow-lg rounded-lg p-6 text-center">
               <img src="/dress-code/code-2.png" alt="Secondary Sponsors" class="w-full h-48 object-contain rounded-lg mb-4">
@@ -145,7 +171,8 @@
           <p class="text-center text-gray-700 mb-4 font-cormorant text-lg">
             Your presence would make our day even more special. Please let us know if you can join us!
           </p>
-          <p class="text-center text-md mb-12 font-cormorant" style="color: #cd7b49">
+          
+          <p class="text-center text-sm mb-6 font-medium" style="color: #cd7b49;">
             Please respond by November 15, 2025
           </p>
           
@@ -197,26 +224,26 @@
             </div>
             <button 
               type="submit" 
-              :disabled="submitting" 
+              :disabled="submitting || isRsvpExpired" 
               class="w-full disabled:bg-gray-400 text-white font-cormorant text-lg py-4 rounded-lg transition-colors" style="background-color: #3d1d11"
             >
-              {{ submitting ? 'Sending...' : 'Send RSVP' }}
+              {{ submitting ? 'Sending...' : isRsvpExpired ? 'RSVP Deadline Passed' : 'Send RSVP' }}
             </button>
           </form>
         </div>
       </section>
 
       <!-- Footer -->
-      <footer class="text-center">
-        <div class="animate-bounce mb-4 cursor-pointer" @click="scrollToTop">
-          <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #cd7b49">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-          </svg>
-        </div>
+      <footer class="text-center">        
         <div class="mb-8">
           <p class="font-cormorant text-lg text-gray-700">
             Made with <span class="text-red-500">&hearts;</span> by <a href="https://github.com/janirvinfabon" target="_blank" class="hover:underline" style="color: #cd7b49">#mstrirving</a>
           </p>
+        </div>
+        <div class="animate-bounce mb-4 cursor-pointer" @click="scrollToTop">
+          <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #cd7b49">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+          </svg>
         </div>
       </footer>
     </div>
@@ -229,22 +256,25 @@
 </template>
 
 <script setup>
-  useSeoMeta({
+  useHead({
     title: 'Jan & Muriel Wedding Invitation',
-    description: 'You are invited to celebrate our wedding.',
-    ogTitle: 'Jan & Muriel Wedding Invitation',
-    ogDescription: 'You are invited to celebrate our wedding.',
-    ogImage: '/backgrounds/invitation-1.jpg',
-    ogUrl: 'https://fabsoon.mstrirving.com',
-    ogType: 'website',
-    ogSiteName: 'Jan & Muriel Wedding',
-    ogImageWidth: '1200',
-    ogImageHeight: '630',
-    fbAppId: '123456789',
-    twitterCard: 'summary_large_image',
-    twitterTitle: 'Jan & Muriel Wedding Invitation',
-    twitterDescription: 'You are invited to celebrate our wedding.',
-    twitterImage: '/backgrounds/invitation-1.jpg'
+    meta: [
+      { name: 'description', content: 'You are invited to celebrate our wedding.' },
+      { property: 'image', content: 'https://fabsoon.com/backgrounds/seo.jpg' },
+      { property: 'url', content: 'https://fabsoon.com' },
+      { property: 'og:title', content: 'Jan & Muriel Wedding Invitation' },
+      { property: 'og:description', content: 'You are invited to celebrate our wedding.' },
+      { property: 'og:image', content: 'https://fabsoon.com/backgrounds/seo.jpg' },
+      { property: 'og:url', content: 'https://fabsoon.com' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'Jan & Muriel Wedding' },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: 'Jan & Muriel Wedding Invitation' },
+      { name: 'twitter:description', content: 'You are invited to celebrate our wedding.' },
+      { name: 'twitter:image', content: 'https://fabsoon.com/backgrounds/seo.jpg' }
+    ]
   })
 
   const rsvpForm = ref({
@@ -259,6 +289,28 @@
   
   const currentSlide = ref(0)
   const carouselImages = ref([1, 2, 3, 4, 5, 6])
+
+  const countdown = ref({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
+  const isRsvpExpired = computed(() => {
+    const deadline = new Date('2025-11-15T23:59:59')
+    return new Date() > deadline
+  })
+
+  const updateCountdown = () => {
+    const weddingDate = new Date('2025-12-20T00:00:00')
+    const now = new Date()
+    const diff = weddingDate.getTime() - now.getTime()
+
+    if (diff > 0) {
+      countdown.value = {
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0'),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0'),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0'),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0')
+      }
+    }
+  }
 
   const showToast = (message, type = 'success') => {
     toast.value = { show: true, message, type }
@@ -287,6 +339,8 @@
   
   onMounted(() => {
     if (process.client) {
+      updateCountdown()
+      setInterval(updateCountdown, 1000)
       setInterval(() => {
         currentSlide.value = (currentSlide.value + 1) % carouselImages.value.length
       }, 5000)
