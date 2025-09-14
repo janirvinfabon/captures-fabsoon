@@ -1,5 +1,18 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+  <!-- Splash Screen -->
+  <Transition name="fade" appear>
+    <div v-if="loading" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+      <div class="relative">
+        <div class="w-48 h-48 md:w-64 md:h-64 border-4 md:border-6 border-t-transparent rounded-full animate-spin" style="border-color: #cd7b49; border-top-color: transparent;"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <h1 class="font-script text-3xl md:text-5xl text-center" style="color: #cd7b49;">Jan &<br>Muriel</h1>
+        </div>
+      </div>
+    </div>
+  </Transition>
+
+  <Transition name="slide-up" appear>
+    <div v-if="!loading" class="min-h-screen bg-gradient-to-b from-amber-50 to-white">
     <!-- Hero Section -->
     <div class="relative h-screen flex items-center justify-center bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/backgrounds/invitation-1.jpg'); opacity: 0.9">
       <div class="text-center text-white px-4">
@@ -253,6 +266,7 @@
       <p class="font-cormorant">{{ toast.message }}</p>
     </div>
   </div>
+  </Transition>
 </template>
 
 <script setup>
@@ -284,6 +298,7 @@
     message: ''
   })
 
+  const loading = ref(true)
   const submitting = ref(false)
   const toast = ref({ show: false, message: '', type: 'success' })
   
@@ -344,6 +359,10 @@
       setInterval(() => {
         currentSlide.value = (currentSlide.value + 1) % carouselImages.value.length
       }, 5000)
+      
+      setTimeout(() => {
+        loading.value = false
+      }, 2000)
     }
   })
 
@@ -396,5 +415,20 @@
 
 .font-cormorant {
   font-family: 'Cormorant Upright', serif;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active {
+  transition: all 0.8s ease;
+}
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
