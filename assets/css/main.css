@@ -1,20 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Euphoria+Script&family=Cormorant+Upright:wght@300;400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap');
 
-.video-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+.font-script {
+  font-family: 'Euphoria Script', cursive;
 }
 
-.overlay-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+.font-cormorant {
+  font-family: 'Cormorant Upright', serif;
+}
+
+.font-alegreya {
+  font-family: 'Alegreya', serif;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active {
+  transition: all 0.8s ease;
+}
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
 }
