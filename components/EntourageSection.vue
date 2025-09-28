@@ -11,13 +11,13 @@
       </div>
       <div class="grid grid-cols-2 max-w-md mx-auto gap-x-8 gap-y-2">
         <div class="text-right">
-          <h4 class="font-script text-lg mb-2 text-gray-700">Groom's Parents</h4>
+          <h4 class="font-script text-lg md:text-xl mb-2" style="color: #cd7b49">Groom's Parents</h4>
           <div v-for="person in entourage.groomParents" :key="person.name" class="mb-2 md:mb-2 text-right">
             <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
           </div>
         </div>
         <div class="text-left">
-          <h4 class="font-script text-lg md:text-xl mb-2 text-gray-700">Bride's Parents</h4>
+          <h4 class="font-script text-lg md:text-xl mb-2" style="color: #cd7b49">Bride's Parents</h4>
           <div v-for="person in entourage.brideParents" :key="person.name" class="mb-2 md:mb-2 text-left">
             <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
           </div>
@@ -40,7 +40,21 @@
     </div>
 
     <!-- Best Man & Maid of Honor -->
-    <div class="w-2/5 h-px mx-auto mb-8" style="background-color: #cfb795"></div>
+    <div class="relative flex items-center justify-center mb-8">
+      <div class="w-2/5 h-px" style="background-color: #cfb795"></div>
+      <div class="absolute bg-white px-3">
+        <div class="relative w-6 h-6 flex items-center justify-center">
+          <!-- Flower petals -->
+          <div class="absolute w-2 h-2" style="background-color: #cfb795; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg) translateY(-8px); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;"></div>
+          <div class="absolute w-2 h-2" style="background-color: #cfb795; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(72deg) translateY(-8px); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;"></div>
+          <div class="absolute w-2 h-2" style="background-color: #cfb795; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(144deg) translateY(-8px); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;"></div>
+          <div class="absolute w-2 h-2" style="background-color: #cfb795; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(216deg) translateY(-8px); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;"></div>
+          <div class="absolute w-2 h-2" style="background-color: #cfb795; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(288deg) translateY(-8px); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;"></div>
+          <!-- Flower center -->
+          <div class="absolute w-1.5 h-1.5 rounded-full" style="background-color: #cd7b49; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+        </div>
+      </div>
+    </div>
     <div v-if="entourage.bestMan" class="grid grid-cols-2 text-center max-w-md mx-auto mb-8 gap-x-8 gap-y-2">
       <div class="text-center">
         <h3 class="font-script text-xl mb-4" style="color: #cd7b49">Best Man</h3>
@@ -126,8 +140,6 @@ const groupedSecondarySponsors = computed(() => {
 onMounted(async () => {
   try {
     entourage.value = await $fetch('/entourage.json')
-    console.log('Loaded entourage data:', entourage.value)
-    console.log('Special roles:', entourage.value.specialRoles)
   } catch (error) {
     console.error('Failed to load entourage data:', error)
   }

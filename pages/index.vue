@@ -20,6 +20,8 @@
         <OurLoveStory />
         <FinerDetails />
         <EntourageSection />
+        <FaqSection />
+        <RemindersSection />
         <RsvpSection @showToast="showToast" />
         <FooterSection />
       </div>
