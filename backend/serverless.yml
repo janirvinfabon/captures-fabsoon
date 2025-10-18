@@ -48,26 +48,13 @@ custom:
     number: 3
 
 functions:
-  upload:
-    handler: handler.upload_image
-    events:
-      - http:
-          path: upload
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-            allowCredentials: false
   rsvp:
     handler: handler.rsvp_handler
     events:
       - http:
           path: rsvp
           method: post
+          private: true
           cors:
             origin: '*'
             headers:

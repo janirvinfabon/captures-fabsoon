@@ -86,6 +86,7 @@ def rsvp_handler(event, context):
         body = json.loads(event['body'])
         email:str = body['email'].strip().lower()
         current_date = datetime.now().isoformat()
+        message:str = body.get('message', "")
 
         if datetime.now() > datetime(2025, 11, 15):
             return _handle_response(400, {
@@ -110,6 +111,7 @@ def rsvp_handler(event, context):
         rsvp_object = {
             'email': email,
             'name': body['name'].strip().title(),
+            'message': message[:500],
             'attendance': body['attendance'],
             'timestamp': body.get('timestamp', current_date),
             'created_at': current_date,
@@ -118,6 +120,8 @@ def rsvp_handler(event, context):
         }
 
         if 'Item' in response:
+            if not message:
+                rsvp_object['message'] = response['Item'].get('message', '')
             rsvp_object['updated_at'] = current_date
             rsvp_object['attendance'] = body['attendance']
         

@@ -48,3 +48,6 @@ backend/.serverless/cloudformation-template-create-stack.json
 backend/.serverless/captures-fabsoon-wedding.zip
 .env.example
 waf-config.json
+
+# Public files
+public/*
