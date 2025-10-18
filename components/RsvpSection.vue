@@ -85,6 +85,26 @@ const isRsvpExpired = computed(() => {
   return new Date() > deadline
 })
 
+const createGoogleCalendarUrl = () => {
+  const eventDetails = {
+    title: 'Jan & Muriel Wedding',
+    startDate: '20251220T140000Z', // December 20, 2025 2:00 PM UTC
+    endDate: '20251220T180000Z',   // December 20, 2025 6:00 PM UTC
+    description: 'Join us for our special day!',
+    location: 'Coron Westown Resort'
+  }
+  
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: eventDetails.title,
+    dates: `${eventDetails.startDate}/${eventDetails.endDate}`,
+    details: eventDetails.description,
+    location: eventDetails.location
+  })
+  
+  return `https://calendar.google.com/calendar/render?${params.toString()}`
+}
+
 const submitRSVP = async () => {
   submitting.value = true
   
@@ -107,7 +127,13 @@ const submitRSVP = async () => {
       })
     }
     
-    emit('showToast', 'Thank you for your RSVP! We look forward to celebrating with you!')
+    emit('showToast', 'Thank you for your RSVP! We look forward to celebrating with you!');
+    if (rsvpForm.value.attendance === 'yes') {
+      setTimeout(() => {
+        const googleCalendarUrl = createGoogleCalendarUrl()
+        window.open(googleCalendarUrl, '_blank')
+      }, 1500);
+    }
     
     rsvpForm.value = {
       name: '',
