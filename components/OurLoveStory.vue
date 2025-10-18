@@ -10,10 +10,7 @@
         </div>
         <div>
           <p class="font-cormorant text-lg leading-relaxed text-gray-700 text-justify">
-            Our story began not with fireworks, but with a quiet, certain hello. 
-            That simple greeting sparked a connection that grew into a beautiful partnership. 
-            We invite you to join us as we celebrate this new chapter and make a promise to continue building a 
-            life filled with love, laughter, and endless adventure.
+            No fireworks marked our beginning — just a quiet spark between two souls who found home in each other. That moment became the start of something real and lasting. Now, we open a new chapter with hearts full of love and gratitude, ready to walk hand in hand through every season of life.
           </p>
         </div>
       </div>

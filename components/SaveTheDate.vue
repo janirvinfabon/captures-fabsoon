@@ -52,17 +52,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
             </svg>
             <div class="text-center">
-              <p class="font-cormorant text-sm">Central Fundamental Baptist Church</p>
-              <p class="font-cormorant text-sm text-gray-600">Poblacion IV, Coron, Palawan</p>
-            </div>
-          </div>
-
-          <div class="flex items-start justify-center space-x-2">
-            <svg class="w-5 h-5 mt-1 flex-shrink-0" style="color: #cd7b49" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m6.364-.636l-2.121 2.121M21 12h-3m-.636 6.364l-2.121-2.121M12 21v-3m-6.364.636l2.121-2.121M3 12h3m.636-6.364l2.121 2.121M8 12a4 4 0 108 0 4 4 0 00-8 0zm4-8v2m0 12v2"></path>
-            </svg>
-            <div class="text-center">
-              <p class="font-cormorant text-sm">Reception follows at</p>
+              <p class="font-cormorant text-sm">Ceremony & Reception will be held at</p>
               <p class="font-cormorant text-sm text-gray-600">Coron Westown Resort</p>
             </div>
           </div>
@@ -73,9 +63,9 @@
           <p class="font-cormorant text-base text-gray-600 mb-4">Modern Filipiñana</p>
           
           <p class="font-cormorant text-lg mb-2" style="color: #cd7b49">Share the Love</p>
-          <p class="font-cormorant text-base text-gray-600 mb-4">#oriJANallymadetomarryMURIEL</p>
+          <p class="text-base text-gray-600 mb-4">#oriJANallymadetomarryMURIEL</p>
           
-          <p class="font-cormorant text-base text-gray-500 italic">"When the time is right, I, the Lord, will make it happen." - Isaiah 60:22</p>
+          <p class="text-base text-gray-500 italic">"When the time is right, I, the Lord, will make it happen." - Isaiah 60:22</p>
         </div>
       </div>
     </div>

@@ -42,7 +42,7 @@
     <!-- Best Man & Maid of Honor -->
     <div class="relative flex items-center justify-center mb-8">
       <div class="w-2/5 h-px" style="background-color: #cfb795"></div>
-      <div class="absolute bg-white px-3">
+      <div class="absolute px-3" style="background-color: #fefcf0">
         <div class="relative w-6 h-6 flex items-center justify-center">
           <!-- Flower petals -->
           <div class="absolute w-2 h-2" style="background-color: #cfb795; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg) translateY(-8px); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;"></div>

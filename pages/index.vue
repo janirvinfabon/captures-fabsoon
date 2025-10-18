@@ -22,6 +22,26 @@
         <EntourageSection />
         <FaqSection />
         <RemindersSection />
+        <!-- Page Breaker -->
+        <div class="my-16 flex items-center justify-center">
+          <div class="w-full h-px" style="background-color: #cfb795"></div>
+          <div class="absolute px-6" style="background-color: #fffefa">
+            <svg class="w-6 h-6" style="color: #cd7b49" fill="currentColor" viewBox="0 0 24 24">
+              <!-- Gift box -->
+              <rect x="4" y="8" width="16" height="12" rx="1" fill="currentColor"/>
+              <!-- Ribbon vertical -->
+              <rect x="11" y="6" width="2" height="16" fill="#cfb795"/>
+              <!-- Ribbon horizontal -->
+              <rect x="2" y="11" width="20" height="2" fill="#cfb795"/>
+              <!-- Bow -->
+              <path d="M10 6c0-1 1-2 2-2s2 1 2 2c0 1-1 2-2 2s-2-1-2-2z" fill="#cfb795"/>
+              <path d="M9 5c-1 0-2 1-2 2s1 2 2 2 2-1 2-2-1-2-2-2z" fill="#cfb795"/>
+              <path d="M15 5c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2z" fill="#cfb795"/>
+            </svg>
+          </div>
+        </div>
+        
+        <GiftGuideSection />
         <RsvpSection @showToast="showToast" />
         <FooterSection />
       </div>

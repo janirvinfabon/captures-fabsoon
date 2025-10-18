@@ -94,6 +94,9 @@ const submitRSVP = async () => {
     if ($config?.public?.apiBaseUrl) {
       await $fetch(`${$config.public.apiBaseUrl}/rsvp`, {
         method: 'POST',
+        headers: {
+          'X-API-Key': $config.public.apiKey
+        },
         body: {
           name: rsvpForm.value.name,
           email: rsvpForm.value.email,
