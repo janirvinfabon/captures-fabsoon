@@ -88,8 +88,8 @@ const isRsvpExpired = computed(() => {
 const createGoogleCalendarUrl = () => {
   const eventDetails = {
     title: 'Jan & Muriel Wedding',
-    startDate: '20251220T140000Z', // December 20, 2025 2:00 PM UTC
-    endDate: '20251220T180000Z',   // December 20, 2025 6:00 PM UTC
+    startDate: '20251220T060000Z', // December 20, 2025 2:00 PM UTC
+    endDate: '20251220T100000Z',   // December 20, 2025 6:00 PM UTC
     description: 'Join us for our special day!',
     location: 'Coron Westown Resort'
   }

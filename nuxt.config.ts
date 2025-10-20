@@ -2,6 +2,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss'],
   css: ['~/assets/css/main.css'],
+  ssr: false,
+  nitro: {
+    prerender: {
+      routes: ['/rsvp-admin']
+    }
+  },
   app: {
     head: {
       title: 'Jan & Muriel Wedding Invitation',
