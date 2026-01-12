@@ -5,6 +5,8 @@ import boto3
 import base64
 import uuid
 import os
+
+from boto3.dynamodb.conditions import Key
 from datetime import datetime
 
 os.environ['TZ'] = 'Asia/Manila'
@@ -83,59 +85,113 @@ def upload_image(event, context):
 def rsvp_handler(event, context):
     try:
         _ = context
-        body = json.loads(event['body'])
-        email:str = body['email'].strip().lower()
-        current_date = datetime.now().isoformat()
-        message:str = body.get('message', "")
-
-        if datetime.now() > datetime(2025, 11, 15):
-            return _handle_response(400, {
-                'success': False,
-                'error': 'RSVP period has ended.'
-            })
-
-        email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-        if not re.match(email_regex, email):
-            return _handle_response(400, {
-                'success': False,
-                'error': 'Please provide a valid email address.'
-            })
-
-        table = dynamodb.Table(RSVP_TABLE)
-        response = table.get_item(
-            Key={
-                'email': email
-            }
-        )
-
-        rsvp_object = {
-            'email': email,
-            'name': body['name'].strip().title(),
-            'message': message[:500],
-            'attendance': body['attendance'],
-            'timestamp': body.get('timestamp', current_date),
-            'created_at': current_date,
-            'stage': os.environ.get('STAGE', 'dev'),
-            'created_at_gsi': datetime.now().strftime('%Y-%m-%d')
-        }
-
-        if 'Item' in response:
-            if not message:
-                rsvp_object['message'] = response['Item'].get('message', '')
-            rsvp_object['updated_at'] = current_date
-            rsvp_object['attendance'] = body['attendance']
-        
-        table.put_item(
-            Item=rsvp_object
-        )
-        
-        return _handle_response(200, {
-            'success': True,
-            'email': email
-        })
+        if event['httpMethod'] == 'POST':
+            return handle_rsvp_post(event)
+        else:
+            return handle_rsvp_get(event)
         
     except Exception as e:
         return _handle_response(500, {
             'success': False,
             'error': str(e)
         })
+
+def handle_rsvp_post(event):
+    body = json.loads(event['body'])
+    email:str = body['email'].strip().lower()
+    current_date = datetime.now().isoformat()
+    message:str = body.get('message', "")
+
+    if datetime.now() > datetime(2025, 12, 12, 17, 1, 0):
+        return _handle_response(400, {
+            'success': False,
+            'error': 'RSVP period has ended.'
+        })
+
+    email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    if not re.match(email_regex, email):
+        return _handle_response(400, {
+            'success': False,
+            'error': 'Please provide a valid email address.'
+        })
+
+    table = dynamodb.Table(RSVP_TABLE)
+    response = table.get_item(
+        Key={
+            'email': email
+        }
+    )
+
+    rsvp_object = {
+        'email': email,
+        'name': body['name'].strip().title(),
+        'message': message[:500],
+        'attendance': body['attendance'],
+        'timestamp': body.get('timestamp', current_date),
+        'created_at': current_date,
+        'stage': os.environ.get('STAGE', 'dev'),
+        'created_at_gsi': datetime.now().strftime('%Y-%m-%d')
+    }
+
+    if 'Item' in response:
+        if not message:
+            rsvp_object['message'] = response['Item'].get('message', '')
+        rsvp_object['updated_at'] = current_date
+        rsvp_object['attendance'] = body['attendance']
+    
+    table.put_item(
+        Item=rsvp_object
+    )
+    
+    return _handle_response(200, {
+        'success': True,
+        'email': email
+    })
+
+def handle_rsvp_get(event):
+    path_params = event.get('pathParameters', {})
+    status = path_params.get('status', 'yes')
+    table = dynamodb.Table(RSVP_TABLE)
+    
+    response = table.query(
+        IndexName='gsi1_attendance',
+        KeyConditionExpression=Key('attendance').eq(status),
+    )
+    
+    items = response.get('Items', [])
+    while 'LastEvaluatedKey' in response:
+        response = table.query(
+            IndexName='gsi1_attendance',
+            KeyConditionExpression=Key('attendance').eq(status),
+            ExclusiveStartKey=response['LastEvaluatedKey']
+        )
+        items.extend(response['Items'])
+    
+    result = []
+    for item in items:
+        result.append({
+            'name': item['name'],
+            'email': item['email'],
+            'message': item.get('message', ''),
+            'datetime': item.get('updated_at', item['created_at']),
+        })
+    
+    result = sorted(result, key=lambda x: x['datetime'], reverse=True)
+    return _handle_response(200, {
+        'success': True,
+        'count': len(result),
+        'rsvps': result
+    })
+
+def admin_login_handler(event, context):
+    try:
+        body = json.loads(event['body'])
+        password = body.get('password', '')
+        
+        if password in ['pRYy7h9mfHmZEt!', 'ytWRUG4rtu3YUs!', '55HEWu7YilP2op!']:
+            return _handle_response(200, {'success': True})
+        else:
+            return _handle_response(401, {'success': False, 'error': 'Invalid password'})
+            
+    except Exception as e:
+        return _handle_response(500, {'success': False, 'error': str(e)})

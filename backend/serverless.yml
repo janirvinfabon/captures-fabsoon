@@ -26,6 +26,7 @@ provider:
       Resource: 
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.imagesTableName}"
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.rsvpTableName}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.rsvpTableName}/index/*"
   logRetentionInDays: 120
   memorySize: 128
   timeout: 30
@@ -63,6 +64,34 @@ functions:
               - Authorization
               - X-Api-Key
             allowCredentials: false
+      - http:
+          path: rsvp/{status}
+          method: get
+          private: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+            allowCredentials: false
+  admin_login:
+    handler: handler.admin_login_handler
+    events:
+      - http:
+          path: admin/login
+          method: post
+          private: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+            allowCredentials: false
+
 
 resources:
   Resources:

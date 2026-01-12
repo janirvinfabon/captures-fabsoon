@@ -7,7 +7,7 @@
       </p>
       
       <p class="text-center text-sm mb-6 font-medium" style="color: #cd7b49;">
-        Please respond by November 15, 2025
+        Please respond by December 12, 2025
       </p>
       
       <form @submit.prevent="submitRSVP" class="max-w-md mx-auto space-y-6" autocomplete="off">
@@ -81,8 +81,10 @@ const rsvpForm = ref({
 const submitting = ref(false)
 
 const isRsvpExpired = computed(() => {
-  const deadline = new Date('2025-11-15T23:59:59')
-  return new Date() > deadline
+  const deadline = new Date('2025-12-12T17:00:00+08:00')
+  const now = new Date()
+  const phTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Manila"}))
+  return phTime > deadline
 })
 
 const createGoogleCalendarUrl = () => {

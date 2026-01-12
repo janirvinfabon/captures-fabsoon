@@ -1,10 +1,10 @@
 <template>
   <section id="save-the-date" class="text-center mb-16">
     <h2 class="font-cormorant text-4xl mb-6">Save the Date</h2>
-    <div class="bg-white shadow-lg rounded-lg p-8 mb-8">
+    <div class="std-div bg-white shadow-lg rounded-lg p-8 mb-8">
       <div class="border-2 p-6" style="border-color: #cfb795">
         <p class="font-cormorant text-2xl mb-4">You're Invited to Celebrate</p>
-        <h3 class="font-script text-5xl mb-6" style="color: #cd7b49">Our Wedding</h3>
+        <h3 class="std-title font-script text-5xl mb-6" style="color: #cd7b49">Our Wedding</h3>
 
         <!-- Countdown Timer -->
         <div class="mb-6">
@@ -63,9 +63,9 @@
           <p class="font-cormorant text-base text-gray-600 mb-4">Modern Filipiñana</p>
           
           <p class="font-cormorant text-lg mb-2" style="color: #cd7b49">Share the Love</p>
-          <p class="text-base text-gray-600 mb-4">#oriJANallymadetomarryMURIEL</p>
+          <p class="hash-tag text-base text-gray-600 mb-4">#oriJANallymadetomarryMURIEL</p>
           
-          <p class="text-base text-gray-500 italic">"When the time is right, I, the Lord, will make it happen." - Isaiah 60:22</p>
+          <p class="hash-tag text-base text-gray-500 italic">"When the time is right, I, the Lord, will make it happen." - Isaiah 60:22</p>
         </div>
       </div>
     </div>
@@ -97,3 +97,19 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+@media (max-width: 350px) {
+  .std-div {
+    padding: 1rem;
+  }
+
+  .hash-tag {
+    font-size: 0.8rem;
+  }
+
+  .std-title {
+    font-size: 2.6rem;
+  }
+}
+</style>

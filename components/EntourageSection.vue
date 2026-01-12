@@ -13,13 +13,13 @@
         <div class="text-right">
           <h4 class="font-script text-lg md:text-xl mb-2" style="color: #cd7b49">Groom's Parents</h4>
           <div v-for="person in entourage.groomParents" :key="person.name" class="mb-2 md:mb-2 text-right">
-            <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+            <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
           </div>
         </div>
         <div class="text-left">
           <h4 class="font-script text-lg md:text-xl mb-2" style="color: #cd7b49">Bride's Parents</h4>
           <div v-for="person in entourage.brideParents" :key="person.name" class="mb-2 md:mb-2 text-left">
-            <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+            <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
       </div>
       <div class="grid grid-cols-2 max-w-md mx-auto gap-x-8 gap-y-2">
         <div v-for="(person, index) in entourage.principalSponsors" :key="person.name" class="mb-2 md:mb-3" :class="index % 2 === 0 ? 'text-right' : 'text-left'">
-          <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+          <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
         </div>
       </div>
     </div>
@@ -59,14 +59,14 @@
       <div class="text-center">
         <h3 class="font-script text-xl mb-4" style="color: #cd7b49">Best Man</h3>
         <div v-for="person in entourage.bestMan" :key="person.name" class="mb-3">
-          <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+          <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
         </div>
       </div>
       
       <div class="text-center">
         <h3 class="font-script text-xl mb-4" style="color: #cd7b49">Maid of Honor</h3>
         <div v-for="person in entourage.maidOfHonor" :key="person.name" class="mb-3">
-          <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+          <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@
           <h3 class="font-script text-xl mb-2" style="color: #cd7b49">{{ role }}</h3>
           <div class="text-center">
             <div v-for="person in sponsors" :key="person.name" class="mb-1 md:mb-2">
-              <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+              <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
             </div>
           </div>
         </div>
@@ -95,14 +95,14 @@
       <div class="text-center">
         <h3 class="font-script text-xl mb-4" style="color: #cd7b49">Groom Squad</h3>
         <div v-for="person in entourage.groomsmen" :key="person.name" class="mb-3">
-          <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+          <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
         </div>
       </div>
       
       <div class="text-center">
         <h3 class="font-script text-xl mb-4" style="color: #cd7b49">Bride Squad</h3>
         <div v-for="person in entourage.bridesmaids" :key="person.name" class="mb-3">
-          <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
+          <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ person.name }}</p>
         </div>
       </div>
     </div>
@@ -113,7 +113,7 @@
         <div v-for="roleGroup in entourage.specialRoles" :key="roleGroup.role" class="text-center">
           <h4 class="font-script text-xl mb-2" style="color: #cd7b49">{{ roleGroup.role }}</h4>
           <div v-for="name in roleGroup.names" :key="name">
-            <p class="font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ name }}</p>
+            <p class="ent-font font-alegreya md:text-lg sm:text-md" style="color: #3d1d11">{{ name }}</p>
           </div>
         </div>
       </div>
@@ -145,3 +145,14 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style scoped>
+@media (max-width: 350px) {
+  .ent-font {
+    font-size: 0.8rem;
+  }
+  .gap-x-8 {
+    column-gap: 1rem;
+  }
+}
+</style>
